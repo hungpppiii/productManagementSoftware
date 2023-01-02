@@ -93,7 +93,7 @@ const EditFacility = () => {
 
   const handleSaveFactory = async () => {
     setShowSpinner(true);
-    SaveFacility();
+    await SaveFacility();
     setShowSpinner(false);
     getDataAPIDispatch({ type: GET_TYPE });
     onClose();

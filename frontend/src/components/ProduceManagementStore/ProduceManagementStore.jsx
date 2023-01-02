@@ -28,7 +28,7 @@ const ProduceManagementStore = () => {
   }, []);
 
   return (
-    <Box p={["16px"]} mt={[0, "16px"]}>
+    <Box>
       {getDataAPIState.pageName === PRODUCE_PRODUCT_PAGE ? (
         <ListData
           data={getDataAPIState.data}

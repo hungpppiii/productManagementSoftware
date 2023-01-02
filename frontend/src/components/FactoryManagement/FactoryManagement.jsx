@@ -1,10 +1,18 @@
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
+import {
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+  useColorMode,
+} from "@chakra-ui/react";
 import { useContext } from "react";
 import { ADMIN_FACILITY_PAGE } from "../../config/pageName";
 import { GetDataAPIContext } from "../../stores";
 import FactoryList from "./FactoryList";
 
 const FactoryManagement = () => {
+  const { colorMode } = useColorMode();
   const { getDataAPIState } = useContext(GetDataAPIContext);
 
   const filterData = (type) => {
@@ -21,7 +29,12 @@ const FactoryManagement = () => {
   };
 
   return (
-    <Tabs p={["0", "16px"]} mt={["16px"]}>
+    <Tabs
+      p={["0", "16px"]}
+      bgColor={colorMode === "light" && "white"}
+      borderRadius={colorMode === "light" && "20px"}
+      mt={["16px"]}
+    >
       <TabList>
         <Tab>Cơ sở sản xuất</Tab>
         <Tab>Đại lý phân phối</Tab>

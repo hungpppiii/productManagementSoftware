@@ -132,7 +132,7 @@ const Login = () => {
               <Stack
                 spacing={4}
                 p="1rem"
-                backgroundColor="gray.50"
+                // backgroundColor="gray.50"
                 boxShadow="md"
               >
                 <FormControl isInvalid={formik.errors.account}>
@@ -145,10 +145,10 @@ const Login = () => {
                       name="account"
                       type="email"
                       placeholder="Nhập email"
-                      style={{
-                        color: "black",
-                        border: "1px solid black",
-                      }}
+                      // style={{
+                      //   color: "black",
+                      //   border: "1px solid black",
+                      // }}
                       onChange={formik.handleChange}
                       value={formik.values.account}
                     />
@@ -165,10 +165,12 @@ const Login = () => {
                     <Input
                       type={showPassword ? "text" : "password"}
                       name="password"
-                      style={{
-                        color: "black",
-                        border: "1px solid black",
-                      }}
+                      style={
+                        {
+                          // color: "black",
+                          // border: "1px solid black",
+                        }
+                      }
                       onChange={formik.handleChange}
                       value={formik.values.password}
                       placeholder="Nhập mật khẩu"

@@ -163,7 +163,6 @@ const FactoryList = ({ factories }) => {
         >
           <option value="all">Tất cả</option>
           <option value="name">Tên</option>
-          <option value="address">Địa chỉ</option>
         </Select>
       </Flex>
       {factories && factories.length === 0 ? (

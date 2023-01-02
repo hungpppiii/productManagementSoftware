@@ -6,6 +6,7 @@ import {
   Th,
   TableContainer,
   Box,
+  useColorMode,
 } from "@chakra-ui/react";
 import { useState, useEffect, useRef } from "react";
 
@@ -18,6 +19,7 @@ import SearchBox from "../SearchBox";
 const ListData = ({ data, noDataTitle, columnHeaders, mapFunc }) => {
   const [filterData, setFilterData] = useState();
   const [typeSearch, setTypeSearch] = useState("name");
+  const { colorMode } = useColorMode();
 
   const input = useRef(null);
 
@@ -38,7 +40,12 @@ const ListData = ({ data, noDataTitle, columnHeaders, mapFunc }) => {
   };
 
   return (
-    <Box mt={"12px"}>
+    <Box
+      p={["30px 16px 16px"]}
+      mt={["16px"]}
+      bgColor={colorMode === "light" && "white"}
+      borderRadius={colorMode === "light" && "20px"}
+    >
       <SearchBox {...{ input, handleSelect, handleSearch }} />
       {filterData &&
         (filterData.length === 0 ? (

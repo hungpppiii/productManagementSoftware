@@ -18,7 +18,6 @@ import {
   MenuItem,
   MenuList,
   useColorMode,
-  Button,
 } from "@chakra-ui/react";
 import { FiMenu, FiBell, FiChevronDown } from "react-icons/fi";
 import { RiSunFill, RiMoonFill } from "react-icons/ri";
@@ -42,7 +41,7 @@ const LinkItems_Production_Factory = [
 
 const LinkItems_Distribution_Agent = [
   { name: "Quản lý kho", href: "/distribute/manage-store" },
-  { name: "Quản lý bảo hành", href: "/distribute/manage-insurance-products" },
+  { name: "Quản lý đã bán", href: "/distribute/manage-products-sold" },
   { name: "Quản lý thống kê", href: "/distribute/statistic" },
 ];
 
@@ -63,7 +62,6 @@ const LinkItemsService = () => {
       return LinkItems_Service_Center;
     default:
       return LinkItems_Admin;
-      break;
   }
 };
 
@@ -121,7 +119,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold" mr={6}>
-          Logo
+          Management
         </Text>
         <Icon
           as={colorMode === "light" ? RiSunFill : RiMoonFill}
@@ -133,11 +131,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
 
       {/* LinkItems - actor */}
       {LinkItemsService().map((link) => (
-        <Link
-          to={link.href}
-          // style={{ textDecoration: "none" }}
-          // _focus={{ boxShadow: "none" }}
-        >
+        <Link to={link.href}>
           <Flex
             align="center"
             p="4"
@@ -271,7 +265,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
               bg={useColorModeValue("white", "gray.900")}
               borderColor={useColorModeValue("gray.200", "gray.700")}
             >
-              <MenuItem onClick={handleLogout}>Sign out</MenuItem>
+              <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
             </MenuList>
           </Menu>
         </Flex>

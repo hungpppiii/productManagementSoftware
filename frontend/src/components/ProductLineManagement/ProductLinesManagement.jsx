@@ -29,7 +29,7 @@ const ProductLinesManagement = () => {
   }, []);
 
   return (
-    <Box p={["16px"]} mt={[0, "16px"]}>
+    <Box>
       {getDataAPIState.pageName === ADMIN_PRODUCT_LINE_PAGE ? (
         <ListData
           data={getDataAPIState.data}

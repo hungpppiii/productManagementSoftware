@@ -1,4 +1,4 @@
-import { Flex, Heading, Button, Icon } from "@chakra-ui/react";
+import { Flex, Heading, Button, Icon, useColorMode } from "@chakra-ui/react";
 import { useContext } from "react";
 import { HiPlus } from "react-icons/hi";
 import { SHOW_MODAL_FORM } from "../../config/modalFormType";
@@ -6,6 +6,7 @@ import { ADD_TYPE } from "../../config/pageName";
 import { ModalFormContext } from "../../stores";
 
 const PageTopBar = ({ title, btnTitle }) => {
+  const { colorMode } = useColorMode();
   const { modalFormDispatch } = useContext(ModalFormContext);
   const handleClickAddFacility = () => {
     modalFormDispatch({
@@ -23,8 +24,7 @@ const PageTopBar = ({ title, btnTitle }) => {
         <Button
           flex={["100%", "none"]}
           leftIcon={<Icon color={"white"} as={HiPlus} fontSize={"1.5rem"} />}
-          // colorScheme={"blue"}
-          // color={"white"}
+          colorScheme={colorMode === "light" ? "blue" : "gray"}
           variant={"solid"}
           onClick={handleClickAddFacility}
         >

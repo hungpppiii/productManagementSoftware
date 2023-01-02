@@ -1,9 +1,10 @@
-import { Flex, Heading, Button, Icon } from "@chakra-ui/react";
+import { Flex, Heading, Button, Icon, useColorMode } from "@chakra-ui/react";
 import { useContext } from "react";
 import { HiPlus } from "react-icons/hi";
 import { EditFacilityContext } from "../../stores/editFacilityStore";
 
 const FactoryManagementTopBar = () => {
+  const { colorMode } = useColorMode();
   const editFacilityDispatch = useContext(EditFacilityContext)[1];
   const handleClickAddFacility = () => {
     editFacilityDispatch({
@@ -20,8 +21,7 @@ const FactoryManagementTopBar = () => {
       <Button
         flex={["100%", "none"]}
         leftIcon={<Icon color={"white"} as={HiPlus} fontSize={"1.5rem"} />}
-        // colorScheme={"blue"}
-        // color={"white"}
+        colorScheme={colorMode === "light" ? "blue" : "gray"}
         variant={"solid"}
         onClick={handleClickAddFacility}
       >

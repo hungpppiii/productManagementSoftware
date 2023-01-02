@@ -10,7 +10,7 @@ import { useEffect, useContext, useCallback } from "react";
 import { getAllProducts } from "../api/produceApi";
 import { ProduceManagementStore } from "../components/ProduceManagementStore";
 import PageTopBar from "../components/PageTopBar";
-import ProduceFormModal from "../components/ProduceExportDistribute/ProduceFormModal";
+import ProduceFormModal from "../components/ProduceFormModal";
 
 const ProduceManagementStorePage = () => {
   const { getDataAPIDispatch } = useContext(GetDataAPIContext);

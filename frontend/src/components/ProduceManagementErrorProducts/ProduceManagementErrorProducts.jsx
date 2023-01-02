@@ -14,7 +14,7 @@ const ProduceManagementErrorProducts = () => {
   const columnHeaders = PRODUCE_ERROR_PRODUCT_COLUMN_HEADERS;
 
   return (
-    <Box p={["16px"]} mt={[0, "16px"]}>
+    <Box>
       {getDataAPIState.pageName === PRODUCE_ERROR_PRODUCT_PAGE ? (
         <ListData
           data={getDataAPIState.data}

@@ -79,7 +79,7 @@ const ProduceFormModal = () => {
 
   const handleSaveForm = async () => {
     setShowSpinner(true);
-    saveForm();
+    await saveForm();
     setShowSpinner(false);
     getDataAPIDispatch({ type: GET_TYPE });
     onClose();

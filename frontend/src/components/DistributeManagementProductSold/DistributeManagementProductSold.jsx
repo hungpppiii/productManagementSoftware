@@ -28,7 +28,7 @@ const DistributeManagementProductSold = () => {
   }, []);
 
   return (
-    <Box p={["16px"]} mt={[0, "16px"]}>
+    <Box>
       {getDataAPIState.pageName === DISTRIBUTE_PRODUCT_SOLD_PAGE ? (
         <ListData
           data={getDataAPIState.data}

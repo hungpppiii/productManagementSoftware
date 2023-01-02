@@ -57,7 +57,7 @@ const App = () => {
                 element={<DistributeManagementStorePage />}
               />
               <Route
-                path="/distribute/manage-insurance-products"
+                path="/distribute/manage-products-sold"
                 element={<DistributeManagementProductSoldPage />}
               />
               <Route

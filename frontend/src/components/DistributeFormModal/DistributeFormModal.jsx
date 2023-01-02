@@ -85,8 +85,8 @@ const DistributeFormModal = () => {
         title:
           type === EXPORT_GUARANTEE_TYPE
             ? "Chuyển đến trung tâm bảo hành thất bại"
-            : "Thất bại",
-        status: "error",
+            : "Thành công",
+        status: type === EXPORT_GUARANTEE_TYPE ? "error" : "success",
         duration: 2000,
         isClosable: true,
       });
@@ -95,7 +95,7 @@ const DistributeFormModal = () => {
 
   const handleSaveForm = async () => {
     setShowSpinner(true);
-    saveForm();
+    await saveForm();
     setShowSpinner(false);
     getDataAPIDispatch({ type: GET_TYPE });
     onClose();
