@@ -1,12 +1,16 @@
 import { Box, useToast } from "@chakra-ui/react";
 import { GetDataAPIContext } from "../stores";
-import { ADMIN_PRODUCT_LINE_PAGE, CREATE_TYPE } from "../config/pageName";
+import {
+  ADD_PRODUCT_LINE_BTN_TITLE,
+  ADMIN_PRODUCT_LINE_PAGE,
+  CREATE_TYPE,
+  PRODUCT_LINE_TOP_BAR_TITLE,
+} from "../config/pageName";
 import { useEffect, useContext, useCallback } from "react";
 import { getProductLinesAPI } from "../api/productLineApi";
-import {
-  ProductLinesManagement,
-  ProductLinesManagementTopBar,
-} from "../components/ProductLineManagement";
+import { ProductLinesManagement } from "../components/ProductLineManagement";
+import ImportProductLine from "../components/ImportProductLine";
+import PageTopBar from "../components/PageTopBar";
 
 const ProductLinesManagementPage = () => {
   const { getDataAPIDispatch } = useContext(GetDataAPIContext);
@@ -39,7 +43,11 @@ const ProductLinesManagementPage = () => {
 
   return (
     <Box m={["16px"]}>
-      <ProductLinesManagementTopBar />
+      <ImportProductLine />
+      <PageTopBar
+        title={PRODUCT_LINE_TOP_BAR_TITLE}
+        btnTitle={ADD_PRODUCT_LINE_BTN_TITLE}
+      />
       <ProductLinesManagement />
     </Box>
   );

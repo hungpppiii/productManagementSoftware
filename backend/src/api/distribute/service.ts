@@ -16,10 +16,32 @@ const getProducts = async (req: Request) => {
 		const { offset, limit, order } = paginate(req);
 		const distributeId = req.facility.id;
 
-		const products = await Product.findAndCountAll({
+		const products = await Product.findAll({
 			where: {
 				distributeId,
 				status: ProductStatus.INSTOCK
+			},
+			include: ProductLine,
+			offset,
+			limit,
+			order: [order]
+		});
+
+		return products;
+	} catch (error) {
+		throw error;
+	}
+};
+
+const getProductsSold = async (req: Request) => {
+	try {
+		const { offset, limit, order } = paginate(req);
+		const distributeId = req.facility.id;
+
+		const products = await Product.findAll({
+			where: {
+				distributeId,
+				status: ProductStatus.SOLD
 			},
 			include: ProductLine,
 			offset,
@@ -224,7 +246,8 @@ const exportGuarantee = async (req: Request) => {
 		} else {
 			const product = await verifyProduct(productCode, distributeId);
 
-			if (!product || product.status !== ProductStatus.SOLD || new Date(insuranceDate) < new Date(product.mfg)) {
+			// if (!product || product.status !== ProductStatus.SOLD || new Date(insuranceDate) < new Date(product.mfg)) {
+			if (!product || product.status !== ProductStatus.SOLD) {
 				message = 'Invalid product.';
 				status = ResponeCodes.BAD_REQUEST;
 			} else {
@@ -238,62 +261,62 @@ const exportGuarantee = async (req: Request) => {
 							productCode
 						}
 					});
-					const diffMonth = timeDiffByMonth(new Date(order.orderDate), new Date(insuranceDate));
-					const guaranteePeriod = product.ProductLine.guaranteePeriod;
-					if (diffMonth > guaranteePeriod) {
-						message = 'Time expired.';
-						status = ResponeCodes.OK;
+					// const diffMonth = timeDiffByMonth(new Date(order.orderDate), new Date(insuranceDate));
+					// const guaranteePeriod = product.ProductLine.guaranteePeriod;
+					// if (diffMonth > guaranteePeriod) {
+					// 	message = 'Time expired.';
+					// 	status = ResponeCodes.OK;
+					// } else {
+					const insurance = await Insurance.create(
+						{
+							...exportData,
+							distributeId
+						},
+						{ transaction }
+					);
+					await product.update(
+						{
+							status: ProductStatus.GUARANTING
+						},
+						{ transaction }
+					);
+					await transaction.commit();
+					data = insurance;
+
+					let produceId = insurance.guaranteeId;
+					var d = new Date();
+					let month = d.getMonth() + 1;
+					let t;
+					if (month < 10) {
+						t = d.getFullYear() + '/' + '0' + month;
 					} else {
-						const insurance = await Insurance.create(
-							{
-								...exportData,
-								distributeId
-							},
-							{ transaction }
-						);
-						await product.update(
-							{
-								status: ProductStatus.GUARANTING
-							},
-							{ transaction }
-						);
-						await transaction.commit();
-						data = insurance;
-
-						let produceId = insurance.guaranteeId;
-						var d = new Date();
-						let month = d.getMonth() + 1;
-						let t;
-						if (month < 10) {
-							t = d.getFullYear() + '/' + '0' + month;
-						} else {
-							t = d.getFullYear() + '/' + month;
-						}
-						let s = await Statistics.findOne({
-							where: { time: t, facilityId: produceId, productLineModel: product.productLineModel }
-						});
-						if (s == null) {
-							let statistic = await Statistics.findAll({
-								where: { facilityId: produceId, productLineModel: product.productLineModel },
-								order: [['createdAt', 'DESC']]
-							});
-							let wh = 1;
-							if (statistic[0] != null) wh = statistic[0].warehouse + 1;
-							let new_statistic = await Statistics.create({
-								time: t,
-								warehouse: wh,
-								work: 0,
-								facilityId: produceId,
-								productLineModel: product.productLineModel
-							});
-						} else {
-							s.warehouse++;
-							await s.save();
-						}
-
-						message = 'Export guarantee successfully!';
-						status = ResponeCodes.CREATED;
+						t = d.getFullYear() + '/' + month;
 					}
+					let s = await Statistics.findOne({
+						where: { time: t, facilityId: produceId, productLineModel: product.productLineModel }
+					});
+					if (s == null) {
+						let statistic = await Statistics.findAll({
+							where: { facilityId: produceId, productLineModel: product.productLineModel },
+							order: [['createdAt', 'DESC']]
+						});
+						let wh = 1;
+						if (statistic[0] != null) wh = statistic[0].warehouse + 1;
+						let new_statistic = await Statistics.create({
+							time: t,
+							warehouse: wh,
+							work: 0,
+							facilityId: produceId,
+							productLineModel: product.productLineModel
+						});
+					} else {
+						s.warehouse++;
+						await s.save();
+					}
+
+					message = 'Export guarantee successfully!';
+					status = ResponeCodes.CREATED;
+					// }
 				}
 			}
 		}
@@ -308,4 +331,4 @@ const exportGuarantee = async (req: Request) => {
 	}
 };
 
-export { getProducts, getProductById, importProduct, exportOrder, exportGuarantee };
+export { getProducts, getProductsSold, getProductById, importProduct, exportOrder, exportGuarantee };

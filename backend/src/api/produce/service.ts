@@ -14,7 +14,7 @@ const getProducts = async (req: Request) => {
 		const { offset, limit, order, query } = paginate(req);
 		const produceId = req.facility.id;
 
-		const products = await Product.findAndCountAll({
+		const products = await Product.findAll({
 			where: {
 				produceId,
 				status: ProductStatus.PRODUCED,
@@ -39,7 +39,7 @@ const getErrorProducts = async (req: Request) => {
 		const { offset, limit, order, query } = paginate(req);
 		const produceId = req.facility.id;
 
-		const products = await Product.findAndCountAll({
+		const products = await Product.findAll({
 			where: {
 				produceId,
 				status: ProductStatus.ERROR,
@@ -47,6 +47,7 @@ const getErrorProducts = async (req: Request) => {
 					[Op.like]: `%${query}%`
 				}
 			},
+			include: ProductLine,
 			offset,
 			limit,
 			order: [order]
@@ -176,7 +177,7 @@ const exportProduct = async (req: Request) => {
 				status = ResponeCodes.BAD_REQUEST;
 			} else {
 				await Promise.all(
-					products.map(async productCode => {
+					products.map(async product => {
 						Product.update(
 							{
 								distributeId,
@@ -185,7 +186,7 @@ const exportProduct = async (req: Request) => {
 							},
 							{
 								where: {
-									code: productCode,
+									code: product.code,
 									status: ProductStatus.PRODUCED
 								}
 							}
@@ -193,7 +194,7 @@ const exportProduct = async (req: Request) => {
 					})
 				);
 				for (let i in products) {
-					let product = await Product.findOne({ where: { code: products[i] } });
+					let product = await Product.findOne({ where: { code: products[i].code } });
 					let produceId = product.produceId;
 					let month = product.createdAt.getMonth() + 1;
 					let t;
@@ -264,4 +265,4 @@ const exportProduct = async (req: Request) => {
 	}
 };
 
-export { getProducts, getErrorProducts,getProductById, importProduct, exportProduct };
+export { getProducts, getErrorProducts, getProductById, importProduct, exportProduct };

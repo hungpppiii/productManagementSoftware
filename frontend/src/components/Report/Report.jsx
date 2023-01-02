@@ -25,6 +25,7 @@ const Report = () => {
   const toast = useToast();
   const [inputTitle, setInputTitle] = useState("");
   const [inputReport, setInputReport] = useState("");
+  const [inputProduceId, setInputProduceId] = useState("");
   const [showSpinner, setShowSpinner] = useState(false);
   const [reportState, reportDispatch] = useContext(ReportContext);
   const { isShowReportModal, typeReport, productCode, produceId } = reportState;
@@ -35,6 +36,7 @@ const Report = () => {
       onOpen();
       setInputTitle("");
       setInputReport("");
+      setInputProduceId(produceId);
     } else {
       onClose();
     }
@@ -70,7 +72,7 @@ const Report = () => {
   const handleExportProduce = useCallback(async () => {
     const res = await exportProduceAPI({
       productCode,
-      produceId,
+      produceId: produceId || inputProduceId,
     });
     if (res.status === 200) {
       toast({
@@ -142,6 +144,16 @@ const Report = () => {
             value={inputTitle}
             onChange={(e) => setInputTitle(e.target.value)}
           />
+          {typeReport === "produce" && !produceId && (
+            <>
+              <Box m={"16px 0 8px"}>Số ID cơ sở sản xuất</Box>
+              <Input
+                type={"text"}
+                value={inputProduceId}
+                onChange={(e) => setInputProduceId(e.target.value)}
+              />{" "}
+            </>
+          )}
           <Box m={"16px 0 8px"}>Nội dung phản hồi</Box>
           <Textarea
             value={inputReport}

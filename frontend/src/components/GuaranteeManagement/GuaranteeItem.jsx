@@ -50,7 +50,7 @@ const GuaranteeItem = ({
         <Box whiteSpace={"normal"}>Nhà máy Hà nội</Box>
       </Th> */}
       <Th>
-        <Box whiteSpace={"normal"}>{userState.fullName}</Box>
+        <Box whiteSpace={"normal"}>{userState.name}</Box>
       </Th>
       <Th>
         <Box whiteSpace={"normal"}>{error}</Box>

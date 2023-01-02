@@ -43,8 +43,9 @@ const GuaranteeList = () => {
   const handleSearch = () => {
     if (
       !getDataAPIState.data ||
-      getDataAPIState.type !== GUARANTEE_PRODUCT_PAGE
+      getDataAPIState.pageName !== GUARANTEE_PRODUCT_PAGE
     ) {
+      console.log("bcd", getDataAPIState.data, getDataAPIState.type);
       return;
     }
     if (typeSearch === "all") {
@@ -107,7 +108,7 @@ const GuaranteeList = () => {
         >
           <option value="all">Tất cả</option>
           <option value="name">Tên sản phẩm</option>
-          <option value="guarantee">Trung tâm bảo hành</option>
+          {/* <option value="guarantee">Trung tâm bảo hành</option> */}
         </Select>
       </Flex>
       {filterGuaranteeProducts &&
@@ -131,9 +132,10 @@ const GuaranteeList = () => {
                 </Tr>
               </Thead>
               <Tbody>
-                {filterGuaranteeProducts.map((guaranteeProduct, index) => {
-                  return <GuaranteeItem key={index} {...guaranteeProduct} />;
-                })}
+                {filterGuaranteeProducts &&
+                  filterGuaranteeProducts.map((guaranteeProduct, index) => {
+                    return <GuaranteeItem key={index} {...guaranteeProduct} />;
+                  })}
               </Tbody>
             </Table>
           </TableContainer>

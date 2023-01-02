@@ -38,7 +38,7 @@ export const getAllErrorProducts = async () => {
 // 	productLineModel: string;
 // 	mfg: Date;
 // }
-export const importProducts = async (data) => {
+export const importProduct = async (data) => {
   const token = localStorage.getItem("token");
   const options = {
     headers: { Authorization: `Bearer ${token}` },

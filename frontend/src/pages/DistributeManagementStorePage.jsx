@@ -1,19 +1,22 @@
 import { Box, useToast } from "@chakra-ui/react";
 import { GetDataAPIContext } from "../stores";
-import { ADMIN_PRODUCT_LINE_PAGE, CREATE_TYPE } from "../config/pageName";
-import { useEffect, useContext, useCallback } from "react";
-import { getProductLinesAPI } from "../api/productLineApi";
 import {
-  ProductLinesManagement,
-  ProductLinesManagementTopBar,
-} from "../components/ProductLineManagement";
+  CREATE_TYPE,
+  DISTRIBUTE_PRODUCT_PAGE,
+  PRODUCE_MANAGEMENT_STORE_TITLE,
+} from "../config/pageName";
+import { useEffect, useContext, useCallback } from "react";
+import PageTopBar from "../components/PageTopBar";
+import { getAllProductsDtbAPI } from "../api/distributeApi";
+import DistributeManagementStore from "../components/DistributeManagementStore/DistributeManagementStore";
+import DistributeFormModal from "../components/DistributeFormModal";
 
 const DistributeManagementStorePage = () => {
   const { getDataAPIDispatch } = useContext(GetDataAPIContext);
   const toast = useToast();
 
-  const getProductLines = useCallback(async () => {
-    const res = await getProductLinesAPI();
+  const getAllProducts = useCallback(async () => {
+    const res = await getAllProductsDtbAPI();
     if (res.status === 200) {
       return res.data;
     } else {
@@ -31,16 +34,17 @@ const DistributeManagementStorePage = () => {
     getDataAPIDispatch({
       type: CREATE_TYPE,
       payload: {
-        pageName: ADMIN_PRODUCT_LINE_PAGE,
-        getDataAPI: getProductLines,
+        pageName: DISTRIBUTE_PRODUCT_PAGE,
+        getDataAPI: getAllProducts,
       },
     });
   }, []);
 
   return (
     <Box m={["16px"]}>
-      <ProductLinesManagementTopBar />
-      <ProductLinesManagement />
+      <DistributeFormModal />
+      <PageTopBar title={PRODUCE_MANAGEMENT_STORE_TITLE} />
+      <DistributeManagementStore />
     </Box>
   );
 };

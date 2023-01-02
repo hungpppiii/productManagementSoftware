@@ -37,9 +37,9 @@ const EditFacility = () => {
   useEffect(() => {
     if (isShowEditFacilityModal) {
       onOpen();
-      setInputName(editFacilityState.data?.name);
-      setInputAccount(editFacilityState.data?.account);
-      setInputEmail(editFacilityState.data?.email);
+      setInputName(data?.name);
+      setInputAccount(data?.account);
+      setInputEmail(data?.email);
       setInputPassword("");
       setType("produce");
     } else {
@@ -60,11 +60,11 @@ const EditFacility = () => {
       password: inputPassword,
       email: inputEmail,
       imageUrl: "",
-      type: editFacilityState.data?.type || type,
+      type: data?.type || type,
     };
 
     const res = await (typeEditFacility === "edit"
-      ? editFactoryAPI(editFacilityState.data?.id, newFactory)
+      ? editFactoryAPI(data?.id, newFactory)
       : addFactoryAPI(newFactory));
     if (res.status === 200 || res.status === 201) {
       toast({

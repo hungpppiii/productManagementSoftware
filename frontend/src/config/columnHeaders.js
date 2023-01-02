@@ -12,14 +12,49 @@ export const ADMIN_PRODUCT_LINE_COLUMN_HEADERS = [
   "Kiểu",
   "Thời gian bảo hành",
   "Ngày tạo",
+  "Thao tác",
 ];
 
-export const PRODUCE_PRODUCT_COLUMN_HEADERS = "produce_product";
+export const PRODUCE_PRODUCT_COLUMN_HEADERS = [
+  "ID",
+  "Series",
+  "Tên sản phẩm",
+  "Kiểu",
+  "Thời gian bảo hành",
+  "Ngày tạo",
+  "Thao tác",
+];
 
-export const PRODUCE_ERROR_PRODUCT_COLUMN_HEADERS = "produce_error_product";
+export const PRODUCE_ERROR_PRODUCT_COLUMN_HEADERS = [
+  "ID",
+  "Series",
+  "Tên sản phẩm",
+  "Kiểu",
+  "Trạng thái",
+  "Ngày tạo",
+  "Ngày trả về",
+];
 
-export const DISTRIBUTE_PRODUCT_COLUMN_HEADERS = "distribute_product";
+export const DISTRIBUTE_PRODUCT_COLUMN_HEADERS = [
+  "ID",
+  "Series",
+  "Tên sản phẩm",
+  "Kiểu",
+  "Thời gian bảo hành",
+  "Trạng thái",
+  "Ngày tạo",
+  "Thao tác",
+];
 
-export const DISTRIBUTE_GUARANTEE_COLUMN_HEADERS = "distribute_guarantee";
+export const DISTRIBUTE_PRODUCT_SOLD_COLUMN_HEADERS = [
+  "ID",
+  "Series",
+  "Tên sản phẩm",
+  "Kiểu",
+  "Thời gian bảo hành",
+  "Trạng thái",
+  "Ngày bán",
+  "Thao tác",
+];
 
 export const GUARANTEE_PRODUCT_COLUMN_HEADERS = "guarantee_products";

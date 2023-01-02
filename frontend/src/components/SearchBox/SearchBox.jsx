@@ -44,7 +44,7 @@ const SearchBox = ({ input, handleSearch, handleSelect }) => {
         onChange={handleSelect}
       >
         <option value="all">Tất cả</option>
-        <option value="name">Tên dòng sản phẩm</option>
+        <option value="name">Tên</option>
       </Select>
     </Flex>
   );

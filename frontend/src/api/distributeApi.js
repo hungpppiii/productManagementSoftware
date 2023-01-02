@@ -17,6 +17,22 @@ export const getAllProductsDtbAPI = async () => {
   return response;
 };
 
+export const getAllProductsSoldDtbAPI = async () => {
+  const token = localStorage.getItem("token");
+  const options = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+  const response = axios
+    .get(`${DISTRIBUTE_URL}/sold`, options)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return err.response.data;
+    });
+  return response;
+};
+
 // interface ImportProductPayload {
 // 	products: string[];
 // 	distributeDate: Date;

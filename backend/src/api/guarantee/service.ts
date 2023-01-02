@@ -14,7 +14,7 @@ const getProducts = async (req: Request) => {
 		const { offset, limit, order } = paginate(req);
 		const guaranteeId = req.facility.id;
 
-		const products = await Insurance.findAndCountAll({
+		const products = await Insurance.findAll({
 			where: {
 				guaranteeId
 			},

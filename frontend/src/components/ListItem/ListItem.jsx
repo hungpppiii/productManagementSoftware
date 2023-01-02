@@ -1,6 +1,6 @@
-import { Tr, Th, Box, Button } from "@chakra-ui/react";
+import { Tr, Th, Box } from "@chakra-ui/react";
 
-const ListItem = ({ handleOnclick, Btn, listItem }) => {
+const ListItem = ({ children, listItem }) => {
   return (
     <Tr>
       {listItem &&
@@ -11,13 +11,7 @@ const ListItem = ({ handleOnclick, Btn, listItem }) => {
             </Th>
           );
         })}
-      {Btn && (
-        <Th>
-          <Button onClick={handleOnclick} whiteSpace={"no-wrap"}>
-            {Btn}
-          </Button>
-        </Th>
-      )}
+      {children && <Th>{children}</Th>}
     </Tr>
   );
 };

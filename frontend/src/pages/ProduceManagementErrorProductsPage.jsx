@@ -1,23 +1,22 @@
 import { Box, useToast } from "@chakra-ui/react";
 import { GetDataAPIContext } from "../stores";
 import {
-  ADD_PRODUCT_BTN_TITLE,
   CREATE_TYPE,
-  PRODUCE_MANAGEMENT_STORE_TITLE,
-  PRODUCE_PRODUCT_PAGE,
+  PRODUCE_ERROR_PRODUCTS_TITLE,
+  PRODUCE_ERROR_PRODUCT_PAGE,
 } from "../config/pageName";
 import { useEffect, useContext, useCallback } from "react";
-import { getAllProducts } from "../api/produceApi";
-import { ProduceManagementStore } from "../components/ProduceManagementStore";
+import ImportProductLine from "../components/ImportProductLine";
+import { getAllErrorProducts } from "../api/produceApi";
+import { ProduceManagementErrorProducts } from "../components/ProduceManagementErrorProducts";
 import PageTopBar from "../components/PageTopBar";
-import ProduceFormModal from "../components/ProduceExportDistribute/ProduceFormModal";
 
-const ProduceManagementStorePage = () => {
+const ProduceManagementErrorProductsPage = () => {
   const { getDataAPIDispatch } = useContext(GetDataAPIContext);
   const toast = useToast();
 
-  const getProducts = useCallback(async () => {
-    const res = await getAllProducts();
+  const getErrorProducts = useCallback(async () => {
+    const res = await getAllErrorProducts();
     if (res.status === 200) {
       return res.data;
     } else {
@@ -35,22 +34,19 @@ const ProduceManagementStorePage = () => {
     getDataAPIDispatch({
       type: CREATE_TYPE,
       payload: {
-        pageName: PRODUCE_PRODUCT_PAGE,
-        getDataAPI: getProducts,
+        pageName: PRODUCE_ERROR_PRODUCT_PAGE,
+        getDataAPI: getErrorProducts,
       },
     });
   }, []);
 
   return (
     <Box m={["16px"]}>
-      <ProduceFormModal />
-      <PageTopBar
-        title={PRODUCE_MANAGEMENT_STORE_TITLE}
-        btnTitle={ADD_PRODUCT_BTN_TITLE}
-      />
-      <ProduceManagementStore />
+      <ImportProductLine />
+      <PageTopBar title={PRODUCE_ERROR_PRODUCTS_TITLE} />
+      <ProduceManagementErrorProducts />
     </Box>
   );
 };
 
-export default ProduceManagementStorePage;
+export default ProduceManagementErrorProductsPage;

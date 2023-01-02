@@ -1,26 +1,24 @@
 import { useReducer, createContext, useCallback } from "react";
+import { HIDDEN_MODAL_FORM, SHOW_MODAL_FORM } from "../config/modalFormType";
 
 const initialState = {
-  isShowReportModal: false,
-  typeReport: null,
-  productCode: null,
-  produceId: null,
+  isShowModalForm: false,
+  type: null,
+  data: null,
 };
-
 export const ModalFormContext = createContext(initialState);
 
 const ModalFormStore = ({ children }) => {
   const modalFormReducer = useCallback((state, action) => {
     switch (action.type) {
-      case "showModal":
-        return { ...state, isShowReportModal: true, ...action.payload };
-      case "hiddenModal":
+      case SHOW_MODAL_FORM:
+        return { ...state, isShowModalForm: true, ...action.payload };
+      case HIDDEN_MODAL_FORM:
         return {
           ...state,
-          isShowReportModal: false,
-          typeReport: null,
-          productCode: null,
-          produceId: null,
+          isShowModalForm: false,
+          type: null,
+          data: null,
         };
       default:
         return state;
@@ -33,7 +31,7 @@ const ModalFormStore = ({ children }) => {
   );
 
   return (
-    <ModalFormContext.Provider value={[modalFormState, modalFormDispatch]}>
+    <ModalFormContext.Provider value={{ modalFormState, modalFormDispatch }}>
       {children}
     </ModalFormContext.Provider>
   );

@@ -12,6 +12,15 @@ const getProducts = async (req: Request, res: Response) => {
 	}
 };
 
+const getProductsSold = async (req: Request, res: Response) => {
+	try {
+		const result = await service.getProductsSold(req);
+		return new ApiResponse(result).send(res);
+	} catch (error) {
+		return new ApiResponse(error.message, "Couldn't get products.", ResponeCodes.ERROR).send(res);
+	}
+};
+
 const getProduct = async (req: Request, res: Response) => {
 	try {
 		const result = await service.getProductById(req);
@@ -52,4 +61,4 @@ const exportGuarantee = async (req: Request, res: Response) => {
 	}
 };
 
-export { getProducts, getProduct, importProduct, exportOrder, exportGuarantee };
+export { getProducts, getProductsSold, getProduct, importProduct, exportOrder, exportGuarantee };

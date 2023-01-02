@@ -3,7 +3,7 @@ interface ExportOrderPayload {
 	orderDate?: Date;
 	orderName: string;
 	orderPhone?: string;
-	orderAdress?: string;
+	orderAddress?: string;
 }
 
 export default ExportOrderPayload;

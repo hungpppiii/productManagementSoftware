@@ -1,12 +1,15 @@
 import { Box, useToast } from "@chakra-ui/react";
 import EditFacility from "../components/EditFacility";
 import GuaranteeManagement from "../components/GuaranteeManagement";
-import GuaranteeManagementTopBar from "../components/GuaranteeManagementTopBar";
-import { getFactoriesAPI } from "../api/factoryApi";
 import { GetDataAPIContext } from "../stores";
-import { CREATE_TYPE, GUARANTEE_PRODUCT_PAGE } from "../config/pageName";
+import {
+  CREATE_TYPE,
+  GUARANTEE_MANAGEMENT_PRODUCTS_TITLE,
+  GUARANTEE_PRODUCT_PAGE,
+} from "../config/pageName";
 import { useEffect, useContext, useCallback } from "react";
 import { getGuaranteeProductsAPI } from "../api/guaranteeAPI";
+import PageTopBar from "../components/PageTopBar";
 
 const GuaranteeManagementPage = () => {
   const { getDataAPIDispatch } = useContext(GetDataAPIContext);
@@ -40,7 +43,7 @@ const GuaranteeManagementPage = () => {
   return (
     <Box m={["16px"]}>
       <EditFacility />
-      <GuaranteeManagementTopBar />
+      <PageTopBar title={GUARANTEE_MANAGEMENT_PRODUCTS_TITLE} />
       <GuaranteeManagement />
     </Box>
   );

@@ -1,23 +1,22 @@
 import { Box, useToast } from "@chakra-ui/react";
 import { GetDataAPIContext } from "../stores";
 import {
-  ADD_PRODUCT_BTN_TITLE,
   CREATE_TYPE,
-  PRODUCE_MANAGEMENT_STORE_TITLE,
-  PRODUCE_PRODUCT_PAGE,
+  DISTRIBUTE_PRODUCT_SOLD_PAGE,
+  DISTRIBUTE_PRODUCT_SOLD_TITLE,
 } from "../config/pageName";
 import { useEffect, useContext, useCallback } from "react";
-import { getAllProducts } from "../api/produceApi";
-import { ProduceManagementStore } from "../components/ProduceManagementStore";
 import PageTopBar from "../components/PageTopBar";
-import ProduceFormModal from "../components/ProduceExportDistribute/ProduceFormModal";
+import { getAllProductsSoldDtbAPI } from "../api/distributeApi";
+import DistributeManagementProductSold from "../components/DistributeManagementProductSold/DistributeManagementProductSold";
+import DistributeFormModal from "../components/DistributeFormModal";
 
-const ProduceManagementStorePage = () => {
+const DistributeManagementProductSoldPage = () => {
   const { getDataAPIDispatch } = useContext(GetDataAPIContext);
   const toast = useToast();
 
-  const getProducts = useCallback(async () => {
-    const res = await getAllProducts();
+  const getAllProducts = useCallback(async () => {
+    const res = await getAllProductsSoldDtbAPI();
     if (res.status === 200) {
       return res.data;
     } else {
@@ -35,22 +34,19 @@ const ProduceManagementStorePage = () => {
     getDataAPIDispatch({
       type: CREATE_TYPE,
       payload: {
-        pageName: PRODUCE_PRODUCT_PAGE,
-        getDataAPI: getProducts,
+        pageName: DISTRIBUTE_PRODUCT_SOLD_PAGE,
+        getDataAPI: getAllProducts,
       },
     });
   }, []);
 
   return (
     <Box m={["16px"]}>
-      <ProduceFormModal />
-      <PageTopBar
-        title={PRODUCE_MANAGEMENT_STORE_TITLE}
-        btnTitle={ADD_PRODUCT_BTN_TITLE}
-      />
-      <ProduceManagementStore />
+      <DistributeFormModal />
+      <PageTopBar title={DISTRIBUTE_PRODUCT_SOLD_TITLE} />
+      <DistributeManagementProductSold />
     </Box>
   );
 };
 
-export default ProduceManagementStorePage;
+export default DistributeManagementProductSoldPage;

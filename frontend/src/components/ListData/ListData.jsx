@@ -8,16 +8,14 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { useState, useEffect, useRef } from "react";
-import ProductLinesItem from "../ListItem";
 
-import { getDate } from "../../utils/getDate";
 import {
   handleSearchFunc,
   handleSelectTypeSearchFunc,
 } from "../../utils/searchFunc";
 import SearchBox from "../SearchBox";
 
-const ListData = ({ data, noDataTitle, columnHeaders }) => {
+const ListData = ({ data, noDataTitle, columnHeaders, mapFunc }) => {
   const [filterData, setFilterData] = useState();
   const [typeSearch, setTypeSearch] = useState("name");
 
@@ -44,7 +42,7 @@ const ListData = ({ data, noDataTitle, columnHeaders }) => {
       <SearchBox {...{ input, handleSelect, handleSearch }} />
       {filterData &&
         (filterData.length === 0 ? (
-          { noDataTitle }
+          <p>{noDataTitle}</p>
         ) : (
           <TableContainer>
             <Table variant={"striped"} colorScheme={"teal"}>
@@ -56,22 +54,7 @@ const ListData = ({ data, noDataTitle, columnHeaders }) => {
                     })}
                 </Tr>
               </Thead>
-              <Tbody>
-                {filterData.map((productLine, index) => {
-                  return (
-                    <ProductLinesItem
-                      key={index}
-                      listItem={[
-                        productLine.id,
-                        productLine.name,
-                        productLine.model,
-                        productLine.guaranteePeriod + " tháng",
-                        getDate(productLine.createdAt),
-                      ]}
-                    />
-                  );
-                })}
-              </Tbody>
+              <Tbody>{filterData.map(mapFunc)}</Tbody>
             </Table>
           </TableContainer>
         ))}

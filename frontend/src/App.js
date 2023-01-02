@@ -1,13 +1,16 @@
 import { ChakraProvider, ColorModeScript, theme } from "@chakra-ui/react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import {
+  DistributeManagementProductSoldPage,
+  DistributeManagementStorePage,
   FactoryManagementPage,
   GuaranteeManagementPage,
+  ProduceManagementErrorProductsPage,
+  ProduceManagementStorePage,
   ProductLinesManagementPage,
 } from "./pages";
 import Login from "./pages/Login";
 import { Stores } from "./stores";
-// import { DarkModeSwitch } from "../components/NavbarDarkmode";
 import SidebarWithHeader from "./components/SidebarWithHeader";
 import StatisticAdmin from "./pages/StatisticAdmin";
 import StatisticAgent from "./pages/StatisticAgent";
@@ -35,23 +38,35 @@ const App = () => {
               />
               <Route path="/statistic" element={<StatisticAdmin />} />
 
-              {/* <Route path="/produce/manage-store" element={< />} /> */}
-              {/* <Route path="/produce/manage-error-products" element={< />} /> */}
+              <Route
+                path="/produce/manage-store"
+                element={<ProduceManagementStorePage />}
+              />
+              <Route
+                path="/produce/manage-error-products"
+                element={<ProduceManagementErrorProductsPage />}
+              />
 
               <Route
                 path="/produce/statistic"
                 element={<StatisticFacility />}
               />
 
-              {/* <Route path="/distribute/manage-store" element={< />} /> */}
-              {/* <Route path="/distribute/manage-insurance-products" element={< />} /> */}
+              <Route
+                path="/distribute/manage-store"
+                element={<DistributeManagementStorePage />}
+              />
+              <Route
+                path="/distribute/manage-insurance-products"
+                element={<DistributeManagementProductSoldPage />}
+              />
               <Route
                 path="/distribute/statistic"
                 element={<StatisticAgent />}
               />
 
               <Route
-                path="/manage-guarantee"
+                path="guarantee/manage-insurance-products"
                 element={<GuaranteeManagementPage />}
               />
               <Route

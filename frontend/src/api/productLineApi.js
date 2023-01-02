@@ -66,13 +66,13 @@ export const addProductLine = async (data) => {
 // 	photoUrl?: string;
 // 	guaranteePeriod: number;
 // }
-export const updateProductLine = async (id) => {
+export const updateProductLine = async (id, data) => {
   const token = localStorage.getItem("token");
   const options = {
     headers: { Authorization: `Bearer ${token}` },
   };
   const response = axios
-    .put(`${PRODUCT_LINE_URL}/id`, options)
+    .put(`${PRODUCT_LINE_URL}/${id}`, data, options)
     .then((res) => {
       return res.data;
     })

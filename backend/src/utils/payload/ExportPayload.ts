@@ -1,5 +1,7 @@
+import { ProductModel } from 'databases/models/Product';
+
 interface ExportPayload {
-	products: string[];
+	products: ProductModel[];
 	distributeId: number;
 	distributeDate: Date;
 }
