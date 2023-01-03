@@ -13,7 +13,7 @@ const router = Router();
 
 router.get('/pagination', [verifyToken, verifyAdmin], getFacilities);
 router.get('/:id', [verifyToken, verifyAdmin], getFacility);
-router.get('/', [verifyToken], getAllFacilities);
+router.get('/', getAllFacilities);
 router.post('/', addFacility);
 router.put('/:id', [verifyToken, verifyAdmin], changeFacilityInfo);
 router.delete('/:id', [verifyToken, verifyAdmin], deleteFacility);

@@ -30,24 +30,24 @@ const LinkItems_Admin = [
     href: "/manage-product-lines",
   },
   { name: "Quản lý cơ sở", href: "/manage-facility" },
-  { name: "Quản lý thống kê", href: "/statistic" },
+  { name: "Thống kê", href: "/statistic" },
 ];
 
 const LinkItems_Production_Factory = [
   { name: "Quản lý kho", href: "/produce/manage-store" },
   { name: "Quản lý sản phẩm lỗi", href: "/produce/manage-error-products" },
-  { name: "Quản lý thống kê", href: "/produce/statistic" },
+  { name: "Thống kê", href: "/produce/statistic" },
 ];
 
 const LinkItems_Distribution_Agent = [
   { name: "Quản lý kho", href: "/distribute/manage-store" },
-  { name: "Quản lý đã bán", href: "/distribute/manage-products-sold" },
-  { name: "Quản lý thống kê", href: "/distribute/statistic" },
+  { name: "Quản lý sản phẩm đã bán", href: "/distribute/manage-products-sold" },
+  { name: "Thống kê", href: "/distribute/statistic" },
 ];
 
 const LinkItems_Service_Center = [
   { name: "Quản lý bảo hành", href: "/guarantee/manage-insurance-products" },
-  { name: "Quản lý thống kê", href: "/guarantee/statistic" },
+  { name: "Thống kê", href: "/guarantee/statistic" },
 ];
 
 const LinkItemsService = () => {
@@ -119,7 +119,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold" mr={6}>
-          Management
+          Production Move
         </Text>
         <Icon
           as={colorMode === "light" ? RiSunFill : RiMoonFill}
@@ -206,15 +206,6 @@ const MobileNav = ({ onOpen, ...rest }) => {
         aria-label="open menu"
         icon={<FiMenu />}
       />
-
-      <Text
-        display={{ base: "flex", md: "none" }}
-        fontSize="2xl"
-        fontFamily="monospace"
-        fontWeight="bold"
-      >
-        Logo
-      </Text>
 
       <HStack spacing={{ base: "0", md: "6" }}>
         <Menu>

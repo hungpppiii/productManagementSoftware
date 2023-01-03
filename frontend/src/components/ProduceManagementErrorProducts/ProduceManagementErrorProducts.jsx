@@ -10,7 +10,6 @@ import ListItem from "../ListItem/ListItem";
 
 const ProduceManagementErrorProducts = () => {
   const { getDataAPIState } = useContext(GetDataAPIContext);
-  const noDataTitle = useRef(PRODUCT_NO_DATA_TITLE);
   const columnHeaders = PRODUCE_ERROR_PRODUCT_COLUMN_HEADERS;
 
   return (
@@ -18,7 +17,7 @@ const ProduceManagementErrorProducts = () => {
       {getDataAPIState.pageName === PRODUCE_ERROR_PRODUCT_PAGE ? (
         <ListData
           data={getDataAPIState.data}
-          {...{ noDataTitle, columnHeaders }}
+          {...{ noDataTitle: PRODUCT_NO_DATA_TITLE, columnHeaders }}
           mapFunc={(e, i) => {
             return (
               <ListItem
