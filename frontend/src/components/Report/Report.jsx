@@ -14,8 +14,10 @@ import {
   useDisclosure,
   useToast,
   Textarea,
+  Select,
 } from "@chakra-ui/react";
 import { useContext, useEffect, useState, useCallback } from "react";
+import { getFactoriesByTypeAPI } from "../../api/factoryApi";
 import { exportDistributeAPI, exportProduceAPI } from "../../api/guaranteeAPI";
 import { GET_TYPE } from "../../config/pageName";
 import { GetDataAPIContext, ReportContext } from "../../stores";
@@ -23,20 +25,21 @@ import { GetDataAPIContext, ReportContext } from "../../stores";
 const Report = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
-  const [inputTitle, setInputTitle] = useState("");
-  const [inputReport, setInputReport] = useState("");
+  // const [inputTitle, setInputTitle] = useState("");
+  // const [inputReport, setInputReport] = useState("");
   const [inputProduceId, setInputProduceId] = useState("");
+  const [listProduce, setListProduce] = useState([]);
   const [showSpinner, setShowSpinner] = useState(false);
   const [reportState, reportDispatch] = useContext(ReportContext);
-  const { isShowReportModal, typeReport, productCode, produceId } = reportState;
+  const { isShowReportModal, typeReport, productCode } = reportState;
   const { getDataAPIDispatch } = useContext(GetDataAPIContext);
 
   useEffect(() => {
     if (isShowReportModal) {
       onOpen();
-      setInputTitle("");
-      setInputReport("");
-      setInputProduceId(produceId);
+      // setInputTitle("");
+      // setInputReport("");
+      setInputProduceId("");
     } else {
       onClose();
     }
@@ -47,6 +50,24 @@ const Report = () => {
       reportDispatch({ type: "hiddenReportModal" });
     }
   }, [isOpen, reportDispatch]);
+
+  useEffect(() => {
+    const getListProduce = async () => {
+      const res = await getFactoriesByTypeAPI("produce");
+      if (res.status === 200) {
+        setListProduce(res.data);
+      } else {
+        toast({
+          position: "top",
+          title: "Fetch data failed",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        });
+      }
+    };
+    getListProduce();
+  }, []);
 
   const handleExportDistribute = useCallback(async () => {
     const res = await exportDistributeAPI({ productCode });
@@ -69,10 +90,10 @@ const Report = () => {
     }
   }, [productCode]);
 
-  const handleExportProduce = useCallback(async () => {
+  const handleExportProduce = async () => {
     const res = await exportProduceAPI({
       productCode,
-      produceId: produceId || inputProduceId,
+      produceId: inputProduceId,
     });
     if (res.status === 200) {
       toast({
@@ -91,7 +112,7 @@ const Report = () => {
         isClosable: true,
       });
     }
-  }, [productCode, produceId]);
+  };
 
   const handleSaveFactory = async () => {
     setShowSpinner(true);
@@ -141,23 +162,37 @@ const Report = () => {
           <Box m={"0 0 8px"}>Tiêu đề</Box>
           <Input
             type={"text"}
-            value={inputTitle}
-            onChange={(e) => setInputTitle(e.target.value)}
+            // value={inputTitle}
+            // onChange={(e) => setInputTitle(e.target.value)}
           />
-          {typeReport === "produce" && !produceId && (
+          {typeReport === "produce" && (
             <>
-              <Box m={"16px 0 8px"}>Số ID cơ sở sản xuất</Box>
-              <Input
-                type={"text"}
-                value={inputProduceId}
+              <Box m={"16px 0 8px"}>Cơ sở sản xuất</Box>
+              <Select
+                flex={1}
+                borderRadius={"5px"}
                 onChange={(e) => setInputProduceId(e.target.value)}
-              />{" "}
+                bgColor={"#2d3748"}
+                mb={"16px"}
+                placeholder={"Chọn cơ sở sản xuất"}
+              >
+                {listProduce.map((produce) => {
+                  return (
+                    <option
+                      style={{ background: "#2d3748" }}
+                      value={produce.id}
+                    >
+                      {produce.name}
+                    </option>
+                  );
+                })}
+              </Select>
             </>
           )}
           <Box m={"16px 0 8px"}>Nội dung phản hồi</Box>
           <Textarea
-            value={inputReport}
-            onChange={(e) => setInputReport(e.target.value)}
+          // value={inputReport}
+          // onChange={(e) => setInputReport(e.target.value)}
           />
         </ModalBody>
         <ModalFooter>

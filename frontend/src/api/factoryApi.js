@@ -2,12 +2,20 @@ import axios from "axios";
 import { FACTORY_URL } from "../config/api";
 
 export const getFactoriesAPI = async () => {
-  const token = localStorage.getItem("token");
-  const options = {
-    headers: { Authorization: `Bearer ${token}` },
-  };
   const response = axios
-    .get(FACTORY_URL, options)
+    .get(FACTORY_URL)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return err.response.data;
+    });
+  return response;
+};
+
+export const getFactoriesByTypeAPI = async (type) => {
+  const response = axios
+    .get(`${FACTORY_URL}?type=${type}`)
     .then((res) => {
       return res.data;
     })

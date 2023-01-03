@@ -13,9 +13,11 @@ import {
   Spinner,
   useDisclosure,
   useToast,
+  Select,
 } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { exportGuaranteeAPI, exportOrderAPI } from "../../api/distributeApi";
+import { getFactoriesByTypeAPI } from "../../api/factoryApi";
 import { HIDDEN_MODAL_FORM } from "../../config/modalFormType";
 import {
   EXPORT_GUARANTEE_TYPE,
@@ -30,6 +32,7 @@ const DistributeFormModal = () => {
   const [input1, setInput1] = useState("");
   const [input2, setInput2] = useState("");
   const [input3, setInput3] = useState("");
+  const [listGuarantee, setListGuarantee] = useState([]);
   const [showSpinner, setShowSpinner] = useState(false);
   const { modalFormState, modalFormDispatch } = useContext(ModalFormContext);
   const { isShowModalForm, type, data } = modalFormState;
@@ -47,6 +50,24 @@ const DistributeFormModal = () => {
   }, [isShowModalForm]);
 
   useEffect(() => {
+    const getListGuarantee = async () => {
+      const res = await getFactoriesByTypeAPI("guarantee");
+      if (res.status === 200) {
+        setListGuarantee(res.data);
+      } else {
+        toast({
+          position: "top",
+          title: "Fetch data failed",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        });
+      }
+    };
+    getListGuarantee();
+  }, []);
+
+  useEffect(() => {
     if (!isOpen) {
       modalFormDispatch({ type: HIDDEN_MODAL_FORM });
     }
@@ -57,13 +78,13 @@ const DistributeFormModal = () => {
       type === EXPORT_GUARANTEE_TYPE
         ? await exportGuaranteeAPI({
             productCode: data.code,
-            insuranceDate: "2023/01/03",
+            insuranceDate: "2023/01/04",
             guaranteeId: input1,
             error: input2,
           })
         : await exportOrderAPI({
             productCode: data.code,
-            orderDate: "2023/01/03",
+            orderDate: "2023/01/04",
             orderName: input1,
             orderPhone: input2,
             orderAddress: input3,
@@ -131,14 +152,36 @@ const DistributeFormModal = () => {
           <Box m={"16px 0 8px"}>
             {" "}
             {type === EXPORT_GUARANTEE_TYPE
-              ? "Số ID trung tâm bảo hành"
+              ? "Trung tâm bảo hành"
               : "Tên khách hàng"}
           </Box>
-          <Input
-            type={"text"}
-            value={input1}
-            onChange={(e) => setInput1(e.target.value)}
-          />
+          {type === EXPORT_GUARANTEE_TYPE ? (
+            <Select
+              flex={1}
+              borderRadius={"5px"}
+              onChange={(e) => setInput1(e.target.value)}
+              bgColor={"#2d3748"}
+              mb={"16px"}
+              placeholder={"Chọn trung tâm bảo hành"}
+            >
+              {listGuarantee.map((guarantee) => {
+                return (
+                  <option
+                    style={{ background: "#2d3748" }}
+                    value={guarantee.id}
+                  >
+                    {guarantee.name}
+                  </option>
+                );
+              })}
+            </Select>
+          ) : (
+            <Input
+              type={"text"}
+              value={input1}
+              onChange={(e) => setInput1(e.target.value)}
+            />
+          )}
           <Box m={"16px 0 8px"}>
             {type === EXPORT_GUARANTEE_TYPE ? "Lỗi sản phẩm" : "Số điện thoại"}
           </Box>

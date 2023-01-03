@@ -20,6 +20,7 @@ const FactoryManagement = () => {
       getDataAPIState.pageName !== ADMIN_FACILITY_PAGE ||
       !getDataAPIState.data
     ) {
+      console.log("abc", getDataAPIState.data);
       return [];
     }
     let newFactories = getDataAPIState.data.filter((factory) => {

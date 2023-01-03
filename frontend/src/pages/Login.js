@@ -9,13 +9,9 @@ import {
   InputLeftElement,
   chakra,
   Box,
-  Link,
-  Avatar,
   FormControl,
-  FormHelperText,
   InputRightElement,
   ChakraProvider,
-  FormErrorMessage,
   Image,
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
@@ -72,7 +68,7 @@ const Login = () => {
           type: "login",
           payload: { email, imageUrl, name, type },
         });
-        setTimeout(() => handleNavigate(type), 2000);
+        // setTimeout(() => handleNavigate(type), 2000);
       } else if (response.status === 404) {
         console.log("login error", response);
       }

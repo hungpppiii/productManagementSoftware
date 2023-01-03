@@ -38,14 +38,13 @@ const getAllFacilities = async (req: Request) => {
 	try {
 		const type = req.query.type;
 		let whereFacility = {};
-		if (type === FacilityType.ADMIN || type === FacilityType.PRODUCE || type === FacilityType.DISTRIBUTE || type === FacilityType.GUARANTEE) {
+		if (type === FacilityType.PRODUCE || type === FacilityType.DISTRIBUTE || type === FacilityType.GUARANTEE) {
 			whereFacility = {
 				type
 			};
 		}
 		const facilities = await Facility.findAll({
-			where: whereFacility,
-			attributes: ['id', 'name']
+			where: whereFacility
 		});
 		return facilities;
 	} catch (error) {

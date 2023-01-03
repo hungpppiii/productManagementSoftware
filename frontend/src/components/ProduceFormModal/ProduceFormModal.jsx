@@ -13,8 +13,10 @@ import {
   Spinner,
   useDisclosure,
   useToast,
+  Select,
 } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
+import { getFactoriesByTypeAPI } from "../../api/factoryApi";
 import { exportProducts, importProduct } from "../../api/produceApi";
 import { HIDDEN_MODAL_FORM } from "../../config/modalFormType";
 import { ADD_TYPE, GET_TYPE } from "../../config/pageName";
@@ -24,6 +26,7 @@ const ProduceFormModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
   const [input, setInput] = useState("");
+  const [listDistribute, setListDistribute] = useState([]);
   const [showSpinner, setShowSpinner] = useState(false);
   const { modalFormState, modalFormDispatch } = useContext(ModalFormContext);
   const { isShowModalForm, type, data } = modalFormState;
@@ -43,6 +46,24 @@ const ProduceFormModal = () => {
       modalFormDispatch({ type: HIDDEN_MODAL_FORM });
     }
   }, [isOpen, modalFormDispatch]);
+
+  useEffect(() => {
+    const getListDistribute = async () => {
+      const res = await getFactoriesByTypeAPI("distribute");
+      if (res.status === 200) {
+        setListDistribute(res.data);
+      } else {
+        toast({
+          position: "top",
+          title: "Fetch data failed",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        });
+      }
+    };
+    getListDistribute();
+  }, []);
 
   const saveForm = async () => {
     const res =
@@ -113,15 +134,35 @@ const ProduceFormModal = () => {
         )}
         <ModalBody>
           <Box m={"16px 0 8px"}>
-            {type === ADD_TYPE
-              ? "Kiểu sản phẩm (Model)"
-              : "Số ID đại lý phân phối"}
+            {type === ADD_TYPE ? "Kiểu sản phẩm (Model)" : "Đại lý phân phối"}
           </Box>
-          <Input
-            type={"text"}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-          />
+          {type === ADD_TYPE ? (
+            <Input
+              type={"text"}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+            />
+          ) : (
+            <Select
+              flex={1}
+              borderRadius={"5px"}
+              onChange={(e) => setInput(e.target.value)}
+              bgColor={"#2d3748"}
+              mb={"16px"}
+              placeholder={"Chọn đại lý phân phối"}
+            >
+              {listDistribute.map((distribute) => {
+                return (
+                  <option
+                    style={{ background: "#2d3748" }}
+                    value={distribute.id}
+                  >
+                    {distribute.name}
+                  </option>
+                );
+              })}
+            </Select>
+          )}
         </ModalBody>
         <ModalFooter>
           <Button

@@ -124,7 +124,7 @@ const GuaranteeList = () => {
                   <Th>Ngày sản xuất</Th>
                   <Th>Ngày tiếp nhận</Th>
                   <Th>Thời gian bảo hành</Th>
-                  <Th>Trung tâm bảo hành</Th>
+                  {/* <Th>Trung tâm bảo hành</Th> */}
                   {/* <Th>Đại lý phân phối</Th> */}
                   <Th>Loại lỗi</Th>
                   <Th>Trạng thái</Th>
