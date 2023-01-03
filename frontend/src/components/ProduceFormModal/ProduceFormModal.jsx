@@ -18,6 +18,7 @@ import {
 import { useContext, useEffect, useState } from "react";
 import { getFactoriesByTypeAPI } from "../../api/factoryApi";
 import { exportProducts, importProduct } from "../../api/produceApi";
+import { getProductLinesAPI } from "../../api/productLineApi";
 import { HIDDEN_MODAL_FORM } from "../../config/modalFormType";
 import { ADD_TYPE, GET_TYPE } from "../../config/pageName";
 import { GetDataAPIContext, ModalFormContext } from "../../stores";
@@ -27,6 +28,7 @@ const ProduceFormModal = () => {
   const toast = useToast();
   const [input, setInput] = useState("");
   const [listDistribute, setListDistribute] = useState([]);
+  const [listProductLine, setListProductLine] = useState([]);
   const [showSpinner, setShowSpinner] = useState(false);
   const { modalFormState, modalFormDispatch } = useContext(ModalFormContext);
   const { isShowModalForm, type, data } = modalFormState;
@@ -49,9 +51,11 @@ const ProduceFormModal = () => {
 
   useEffect(() => {
     const getListDistribute = async () => {
-      const res = await getFactoriesByTypeAPI("distribute");
-      if (res.status === 200) {
-        setListDistribute(res.data);
+      const res1 = await getFactoriesByTypeAPI("distribute");
+      const res2 = await getProductLinesAPI();
+      if (res1.status === 200 && res2.status === 200) {
+        setListDistribute(res1.data);
+        setListProductLine(res2.data);
       } else {
         toast({
           position: "top",
@@ -128,20 +132,35 @@ const ProduceFormModal = () => {
             boxSize={"100%"}
             justify="center"
             align={"center"}
+            zIndex={100}
           >
             <Spinner thickness="4px" size={"xl"} speed={"0.6s"} />
           </Flex>
         )}
         <ModalBody>
           <Box m={"16px 0 8px"}>
-            {type === ADD_TYPE ? "Kiểu sản phẩm (Model)" : "Đại lý phân phối"}
+            {type === ADD_TYPE ? "Dòng sản phẩm" : "Đại lý phân phối"}
           </Box>
           {type === ADD_TYPE ? (
-            <Input
-              type={"text"}
-              value={input}
+            <Select
+              flex={1}
+              borderRadius={"5px"}
               onChange={(e) => setInput(e.target.value)}
-            />
+              bgColor={"#2d3748"}
+              mb={"16px"}
+              placeholder={"Chọn dòng sản phẩm"}
+            >
+              {listProductLine.map((productLine) => {
+                return (
+                  <option
+                    style={{ background: "#2d3748" }}
+                    value={productLine.model}
+                  >
+                    {productLine.name}
+                  </option>
+                );
+              })}
+            </Select>
           ) : (
             <Select
               flex={1}

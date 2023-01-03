@@ -144,6 +144,7 @@ const DistributeFormModal = () => {
             boxSize={"100%"}
             justify="center"
             align={"center"}
+            zIndex={100}
           >
             <Spinner thickness="4px" size={"xl"} speed={"0.6s"} />
           </Flex>
