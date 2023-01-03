@@ -122,7 +122,7 @@ const ImportProductLine = () => {
             value={inputName}
             onChange={(e) => setInputName(e.target.value)}
           />
-          <Box m={"16px 0 8px"}>Kiểu</Box>
+          <Box m={"16px 0 8px"}>Mã dòng sản phẩm</Box>
           <Input
             type={"text"}
             value={inputModel}

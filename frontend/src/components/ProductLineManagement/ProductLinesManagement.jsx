@@ -16,7 +16,6 @@ import { SHOW_MODAL_FORM } from "../../config/modalFormType";
 const ProductLinesManagement = () => {
   const { getDataAPIState } = useContext(GetDataAPIContext);
   const { modalFormDispatch } = useContext(ModalFormContext);
-  const noDataTitle = useRef(PRODUCT_NO_DATA_TITLE);
   const columnHeaders = ADMIN_PRODUCT_LINE_COLUMN_HEADERS;
 
   const handleOnClickEditBtn = useCallback((data) => {
@@ -33,8 +32,8 @@ const ProductLinesManagement = () => {
       {getDataAPIState.pageName === ADMIN_PRODUCT_LINE_PAGE ? (
         <ListData
           data={getDataAPIState.data}
-          {...{ noDataTitle, columnHeaders }}
-          mapFunc={(e, i) => {
+          {...{ noDataTitle: PRODUCT_NO_DATA_TITLE, columnHeaders }}
+          mapFunc={(e,  i) => {
             return (
               <ListItem
                 listItem={[
